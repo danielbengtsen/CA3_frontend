@@ -102,7 +102,7 @@ function AddressInfo({AddressFetcher})
 <AddressFetcher/>
     return (
       <div>
-      <AddressFetcher/>
+      <AddressFetcher address ={address}/>
       </div>
     );
 

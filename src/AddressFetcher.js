@@ -1,21 +1,22 @@
 import { useState } from 'react';
 const URL = "http://localhost:8080/CA3_3SEM/api/servicepoints/servicepoints";
 
-export function AddressFetcher() {
+export function AddressFetcher({address}) {
 
     const [servicePointName, setServicePointName] = useState([]);
     const [servicePointId, setServicePointId] = useState([]);
     const [servicePoints, setServicePoints] = useState([]);
 
+   
     function getAddress() 
     {
         var opts = {
-            method: "GET",
+            method: "POST",
             headers: {
                 "Accept": "application/json"
             }
         }
-        fetch(URL, opts)
+        fetch(URL, opts, true, {address})
         .then(res => res.json())
         .then(data => {
             servicePoints.forEach(index => {

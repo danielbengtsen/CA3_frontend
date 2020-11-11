@@ -1,10 +1,11 @@
 import { useState } from 'react';
-const URL = "http://localhost:8080/CA3_3SEM/api/postnord/test";
+const URL = "http://localhost:8080/CA3_3SEM/api/servicepoints/servicepoints";
 
 export function AddressFetcher() {
 
-    const [name, setName] = useState([]);
+    const [servicePointName, setServicePointName] = useState([]);
     const [servicePointId, setServicePointId] = useState([]);
+    const [servicePoints, setServicePoints] = useState([]);
 
     function getAddress() 
     {
@@ -17,16 +18,28 @@ export function AddressFetcher() {
         fetch(URL, opts)
         .then(res => res.json())
         .then(data => {
-            setName(data.servicePointInformationResponse.servicePoints[0].name);
-            setServicePointId(data.servicePointInformationResponse.servicePoints[0].servicePointId)
+            servicePoints.forEach(index => {
+                setServicePointName(data.postnord.servicePointInformationResponse.servicePoints[index].name);
+                setServicePointId(data.postnord.servicePointInformationResponse.servicePoints[index].servicePointId);
+            });
+            setServicePoints(data.postnord.servicePointInformationResponse.servicePoints);
         })
     }
+
+    const allServicePoints = servicePoints.map(servicePoint => (
+        <ul key={servicePoint.servicePointId}>
+            <li>{servicePoint.servicePointId}</li>
+            <li>{servicePoint.name}</li>
+        </ul>
+        )
+    );
 
     return (
         <div>
             <button onClick={getAddress}>Get Address</button>
-            <p>{servicePointId}</p>
-            <p>{name}</p>
+            <div>
+                {allServicePoints}
+            </div>
         </div>
     )
 }

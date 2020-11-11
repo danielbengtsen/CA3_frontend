@@ -8,7 +8,7 @@ import AddressFetcher from './AddressFetcher';
 const AppWithRouter = () => {
   return (
     <Router>
-      <App AddressFetcher={AddressFetcher}/>
+      <App/>
     </Router>
   );
 };

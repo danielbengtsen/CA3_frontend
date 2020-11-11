@@ -11,8 +11,9 @@ import {
   useHistory
 } from "react-router-dom";
 import React, { useState } from 'react';
+import AddressFetcher from './AddressFetcher';
 
-function App({AddressFetcher}) {
+function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   let history = useHistory();
 
@@ -34,7 +35,7 @@ function App({AddressFetcher}) {
             <Home />
           </Route>
           <Route path="/address-info">
-            <AddressInfo AddressFetcher = {AddressFetcher}/>
+            <AddressInfo />
           </Route>
           <Route path="/login-out">
             <Login
@@ -77,12 +78,12 @@ function Home()
   );
 }
 
-function AddressInfo({AddressFetcher})
+function AddressInfo()
 {
   const initialValue = {
     city: "",
-    zip: "",
-    street: "",
+    postalCode: "",
+    streetName: "",
     streetNumber: ""
   }
   const [address, setAddress] = useState(initialValue);
@@ -99,12 +100,7 @@ function AddressInfo({AddressFetcher})
   {
     event.preventDefault();
     setIsBlocking(false);
-<AddressFetcher/>
-    return (
-      <div>
-      <AddressFetcher address ={address}/>
-      </div>
-    );
+    alert(JSON.stringify(address));
 
   };
 
@@ -116,16 +112,16 @@ function AddressInfo({AddressFetcher})
           <Prompt when={isBlocking} message={() => "You have unsaved data. Press \"Cancel\" to keep your changes."} />
           <input type="text" id="city" value={address.city} placeholder="City..." onChange={handleChange} />
           <br></br>
-          <input type="text" id="zip" value={address.zip} placeholder="Zip..." onChange={handleChange} />
+          <input type="text" id="postalCode" value={address.postalCode} placeholder="Zip..." onChange={handleChange} />
           <br></br>
-          <input type="text" id="street" value={address.street} placeholder="Street..." onChange={handleChange} />
+          <input type="text" id="streetName" value={address.streetName} placeholder="Street..." onChange={handleChange} />
           <br></br>
           <input type="text" id="streetNumber" value={address.streetNumber} placeholder="Street number..." onChange={handleChange} />
           <br></br>
           <input type="submit" value="Enter" onClick={handleSubmit} />
         </form>
+        <AddressFetcher address={address} />
       </div>
-      <AddressFetcher/>
     </div>
   );
 }

@@ -10,15 +10,18 @@ export function AddressFetcher({address}) {
    
     function getAddress() 
     {
+        console.log(address)
         var opts = {
             method: "POST",
+            body: JSON.stringify(address),
             headers: {
-                "Accept": "application/json"
+                "Content-Type": "application/json"
             }
         }
-        fetch(URL, opts, true, {address})
+        fetch(URL, opts)
         .then(res => res.json())
         .then(data => {
+            console.log(data)
             servicePoints.forEach(index => {
                 setServicePointName(data.postnord.servicePointInformationResponse.servicePoints[index].name);
                 setServicePointId(data.postnord.servicePointInformationResponse.servicePoints[index].servicePointId);

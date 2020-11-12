@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Table } from 'react';
 import { Prompt, Link } from 'react-router-dom';
 import apiFacade from './apiFacade';
 
@@ -41,31 +41,39 @@ export function LoggedIn() {
 
 export function DigitalOcean() {
 
+    const [string, setString] = useState('');
     const [droplets, setDroplets] = useState([]);
-    const displayDropletInfo = droplets.map(droplet => {
-        <div>
-            
-        </div>
+    const display = droplets.map((droplet, index) => {
+        const network = droplet.networks.v4[0];
+        return (
+            <div>
+                <Log value={droplet} />
+            </div>
+        )
     })
+
+    /*
+    {droplet.name}
+            {droplet.created_at}
+            {droplet.memory}
+            {droplet.status}
+            {droplet.region.name}
+            {droplet.size.price_monthly}
+            {network.gateway}
+            {network.ip_address}
+            {network.netmask}
+    */
+    
     useEffect (() => {
-        setInterval(() => {
-            apiFacade.getDigitalOceanInfo()
-            .then(data => {
-                const array = data;
-                console.log(array);
-                setDroplets(array);
-            
-        })
-        }, 360000)
-        
-    }, [])
+               apiFacade.getDigitalOceanInfo()
+               .then(data => setDroplets(data.droplets))
+    }, [string])
 
 
     return (
         <div>
-            {displayDropletInfo}
-            <p>test2</p>
-            <p>{droplets}</p>
+            <input onChange={(evt) => setString(evt.target.value)} />
+            {display}
         </div>
     )
 }
@@ -79,7 +87,6 @@ export function Movies() {
         event.preventDefault();
         apiFacade.getMovieReviews(movieSearchWord)
         .then(data => {
-            console.log(data)
             const array = data.results;
             setMovieArray(array);
         })

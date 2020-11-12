@@ -39,6 +39,37 @@ export function LoggedIn() {
     )
 }
 
+export function DigitalOcean() {
+
+    const [droplets, setDroplets] = useState([]);
+    const displayDropletInfo = droplets.map(droplet => {
+        <div>
+            
+        </div>
+    })
+    useEffect (() => {
+        setInterval(() => {
+            apiFacade.getDigitalOceanInfo()
+            .then(data => {
+                const array = data;
+                console.log(array);
+                setDroplets(array);
+            
+        })
+        }, 360000)
+        
+    }, [])
+
+
+    return (
+        <div>
+            {displayDropletInfo}
+            <p>test2</p>
+            <p>{droplets}</p>
+        </div>
+    )
+}
+
 export function Movies() {
 
     const [movieSearchWord, setMovieSearchWord] = useState("");

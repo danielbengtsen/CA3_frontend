@@ -13,6 +13,12 @@ function getMovieReviews(query) {
         .then(handleHttpErrors);
 }
 
+function getDigitalOceanInfo() {
+    const options = makeOptions("GET", true);
+    return fetch (URL + "digitalocean/admin", options)
+    .then(handleHttpErrors);
+}
+
 const setToken = (token) => {
     localStorage.setItem('jwtToken', token)
 }
@@ -37,6 +43,7 @@ const login = (user, password) => {
 const apiFacade = {
     getServicePoints,
     getMovieReviews,
+    getDigitalOceanInfo,
     setToken,
     getToken,
     loggedIn,

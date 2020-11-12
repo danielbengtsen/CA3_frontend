@@ -16,7 +16,8 @@ import {
   Login,
   LoggedIn,
   Address,
-  Movies
+  Movies,
+  DigitalOcean
 } from './Components';
 import apiFacade from './apiFacade';
 
@@ -41,6 +42,7 @@ function App() {
       })
   }
 
+
   return (
     <Router>
       <div>
@@ -57,6 +59,9 @@ function App() {
           </Route>
           <Route path="/movie-reviews">
            <Movies />
+          </Route>
+          <Route path ="/digitalocean-info">
+            <DigitalOcean />
           </Route>
           <Route path="/login-out">
           <div>
@@ -86,8 +91,7 @@ function Header({ isLoggedIn, loginMsg }) {
         (
           <React.Fragment>
             <li><NavLink activeClassName="active" to="/movie-reviews">Movies</NavLink></li>
-            {//Add list elements here only available to logged in users (remove the "{" "}")
-            }
+            <li><NavLink activeClassName="active" to="/digitalocean-info">Digital Ocean Info</NavLink></li>
           </React.Fragment>
         )
       }

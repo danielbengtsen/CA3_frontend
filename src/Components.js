@@ -9,20 +9,51 @@ export function Home() {
     );
 }
 
+export function Login( {login} ) {
+    const init = {username: "", password: ""};
+    const [loginCredentials, setLoginCredentials] = useState(init);
+
+    const performLogin = (evt) => {
+        evt.preventDefault();
+        login(loginCredentials.username, loginCredentials.password);
+    }
+    const onChange = (evt) => {
+        setLoginCredentials({ ...loginCredentials, [evt.target.id]: evt.target.value })
+    }
+    return (
+        <div>
+            <h2>Login here</h2>
+            <form onChange={onChange}>
+                <input placeholder="Username" id="username" />
+                <input placeholder="Password" id="password" />
+                <button onClick={performLogin}>Login</button>
+            </form>
+        </div>
+    )
+}
+
+export function LoggedIn() {
+    return (
+        <div>
+            <h2>You are now logged in!</h2>
+        </div>
+    )
+}
+
 export function AddressInfo({ address, isBlocking, handleChange, handleSubmit }) {
     return (
         <div>
             <h2>What's the address?</h2>
             <div>
-                <form>
+                <form onChange={handleChange}>
                     <Prompt when={isBlocking} message={() => "You have unsaved data. Press \"Cancel\" to keep your changes."} />
-                    <input type="text" id="city" value={address.city} placeholder="City..." onChange={handleChange} />
+                    <input type="text" id="city" placeholder="City..." />
                     <br></br>
-                    <input type="text" id="postalCode" value={address.postalCode} placeholder="Zip..." onChange={handleChange} />
+                    <input type="text" id="postalCode" placeholder="Zip..." />
                     <br></br>
-                    <input type="text" id="streetName" value={address.streetName} placeholder="Street..." onChange={handleChange} />
+                    <input type="text" id="streetName" placeholder="Street..." />
                     <br></br>
-                    <input type="text" id="streetNumber" value={address.streetNumber} placeholder="Street number..." onChange={handleChange} />
+                    <input type="text" id="streetNumber" placeholder="Street number..." />
                     <br></br>
                     <input type="submit" value="Enter" onClick={handleSubmit} />
                 </form>

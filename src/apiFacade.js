@@ -1,7 +1,7 @@
 const URL = "http://localhost:8080/CA3_3SEM/api/";
 
 function getServicePoints(address) {
-    const options = makeOptions("POST", false, address);
+    const options = makeOptions("POST", true, address);
     return fetch(URL + "servicepoints/servicepoints", options)
         .then(handleHttpErrors);
 }
@@ -21,7 +21,7 @@ const logout = () => {
 }
 
 const login = (user, password) => {
-    const options = makeOptions("POST", false, { username: user, password: password });
+    const options = makeOptions("POST", true, { username: user, password: password });
     return fetch(URL + "login", options)
         .then(handleHttpErrors)
         .then(res => { setToken(res.token) })

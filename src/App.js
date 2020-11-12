@@ -8,19 +8,21 @@ import {
   useParams,
   useRouteMatch,
   Prompt,
-  useHistory
 } from "react-router-dom";
 import React, { useState } from 'react';
 import {
   Home,
   AddressInfo,
   NoMatch,
-  WeatherInfo
+  WeatherInfo,
+  Login,
+  LoggedIn
 } from './Components';
+import apiFacade from './apiFacade';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  let history = useHistory();
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [error, setError] = useState('');
 
   const initialValue = {
     city: "",
@@ -45,18 +47,29 @@ function App() {
     alert(JSON.stringify(address));
   };
 
-  const setLoginStatus = status => {
-    setIsLoggedIn(status);
-    history.push("/");
-  };
+  const logout = () => {
+    apiFacade.logout()
+    setLoggedIn(false)
+  }
 
+  const login = (user, pass) => {
+    apiFacade.login(user, pass)
+      .then(res => {
+        setLoggedIn(true)
+        setError('');
+      })
+      .catch(err => {
+        setError("Couldn't log you in, see error in console for further information");
+        console.log(err);
+      })
+  }
 
   return (
     <Router>
       <div>
         <Header
-          loginMsg={isLoggedIn ? "Logout" : "Login"}
-          isLoggedIn={isLoggedIn}
+          loginMsg={loggedIn ? "Logout" : "Login"}
+          isLoggedIn={loggedIn}
         />
         <Switch>
           <Route exact path="/">
@@ -67,11 +80,15 @@ function App() {
             <WeatherInfo address={address} />
           </Route>
           <Route path="/login-out">
-            <Login
-              loginMsg={isLoggedIn ? "Logout" : "Login"}
-              isLoggedIn={isLoggedIn}
-              setLoginStatus={setLoginStatus}
-            />
+          <div>
+            {!loggedIn ? (<Login login={login} />) :
+            (<div>
+              <LoggedIn />
+              <button onClick={logout}>Logout</button>
+            </div>)}
+            
+            {error}
+          </div>
           </Route>
           <Route component={NoMatch}></Route>
         </Switch>
@@ -96,19 +113,6 @@ function Header({ isLoggedIn, loginMsg }) {
       }
       <li><NavLink activeClassName="active" to="/login-out">{loginMsg}</NavLink></li>
     </ul>
-  );
-}
-
-function Login({ isLoggedIn, loginMsg, setLoginStatus }) {
-  const handleBtnClick = () => {
-    setLoginStatus(!isLoggedIn);
-  };
-
-  return (
-    <div>
-      <h2>{loginMsg}</h2>
-      <button onClick={handleBtnClick}>{loginMsg}</button>
-    </div>
   );
 }
 

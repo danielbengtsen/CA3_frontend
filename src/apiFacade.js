@@ -6,6 +6,13 @@ function getServicePoints(address) {
         .then(handleHttpErrors);
 }
 
+function getMovieReviews(query) {
+    const options = makeOptions("POST", true, {query});
+    console.log(options);
+    return fetch(URL + "movie/review", options)
+        .then(handleHttpErrors);
+}
+
 const setToken = (token) => {
     localStorage.setItem('jwtToken', token)
 }
@@ -29,6 +36,7 @@ const login = (user, password) => {
 
 const apiFacade = {
     getServicePoints,
+    getMovieReviews,
     setToken,
     getToken,
     loggedIn,

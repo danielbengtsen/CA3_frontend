@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Prompt } from 'react-router-dom';
+import { Prompt, Link } from 'react-router-dom';
 import apiFacade from './apiFacade';
 
 export function Home() {
@@ -37,6 +37,46 @@ export function LoggedIn() {
             <h2>You are now logged in!</h2>
         </div>
     )
+}
+
+export function Movies() {
+
+    const [movieSearchWord, setMovieSearchWord] = useState("");
+    const [movieArray, setMovieArray] = useState([]);
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        apiFacade.getMovieReviews(movieSearchWord)
+        .then(data => {
+            console.log(data)
+            const array = data.results;
+            setMovieArray(array);
+        })
+      };
+
+
+      const allMovies = movieArray.map((movie, index)=> (
+        <div>
+        <ul key={index+1}>
+            <li>{movie.display_title} - <a href={movie.link.url}>Details</a></li>
+            <p>Review Summary: {movie.summary_short}</p>
+        </ul>
+        <hr></hr>
+        </div>
+        )
+    );
+
+    return (
+        <div>
+        <div>
+            <input placeholder="Enter movie title" onChange={(event) => setMovieSearchWord(event.target.value)}/>
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+        <div>
+            {allMovies}
+        </div>
+        </div>
+    );
 }
 
 export function Address() {

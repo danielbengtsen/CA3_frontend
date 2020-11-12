@@ -15,7 +15,8 @@ import {
   NoMatch,
   Login,
   LoggedIn,
-  Address
+  Address,
+  Movies
 } from './Components';
 import apiFacade from './apiFacade';
 
@@ -54,6 +55,9 @@ function App() {
           <Route path="/address-info">
            <Address />
           </Route>
+          <Route path="/movie-reviews">
+           <Movies />
+          </Route>
           <Route path="/login-out">
           <div>
             {!loggedIn ? (<Login login={login} />) :
@@ -81,6 +85,7 @@ function Header({ isLoggedIn, loginMsg }) {
         isLoggedIn &&
         (
           <React.Fragment>
+            <li><NavLink activeClassName="active" to="/movie-reviews">Movies</NavLink></li>
             {//Add list elements here only available to logged in users (remove the "{" "}")
             }
           </React.Fragment>

@@ -1,6 +1,8 @@
-import React, { useEffect, useState, Table } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Prompt, Link } from 'react-router-dom';
 import apiFacade from './apiFacade';
+import Table from 'react-bootstrap/Table';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 export function Home() {
     return (
@@ -46,22 +48,57 @@ export function DigitalOcean() {
     const display = droplets.map((droplet, index) => {
         const network = droplet.networks.v4[0];
         return (
-            <div>
-                <Log value={droplet} />
-            </div>
+            <React.Fragment>
+                <tr>
+                    <th>Droplet Name</th>
+                    <td>{droplet.name}</td>
+                </tr>
+                <tr>
+                    <th>Created At</th>
+                    <td>{droplet.created_at}</td>
+                </tr>
+                <tr>
+                    <th>Memory</th>
+                    <td>{droplet.memory} MB</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{droplet.status}</td>
+                </tr>
+                <tr>
+                    <th>Location</th>
+                    <td>{droplet.region.name}</td>
+                </tr>
+                <tr>
+                    <th>Monthly price</th>
+                    <td>${droplet.size.price_monthly}</td>
+                </tr>
+                <tr>
+                    <th>Gateway</th>
+                    <td>{network.gateway}</td>
+                </tr>
+                <tr>
+                    <th>IP Address</th>
+                    <td>{network.ip_address}</td>
+                </tr>
+                <tr>
+                    <th>Netmask</th>
+                    <td>{network.netmask}</td>
+                </tr>
+            </React.Fragment>
         )
     })
 
     /*
-    {droplet.name}
-            {droplet.created_at}
-            {droplet.memory}
-            {droplet.status}
-            {droplet.region.name}
-            {droplet.size.price_monthly}
-            {network.gateway}
-            {network.ip_address}
-            {network.netmask}
+        {droplet.name}
+        {droplet.created_at}
+        {droplet.memory}
+        {droplet.status}
+        {droplet.region.name}
+        {droplet.size.price_monthly}
+        {network.gateway}
+        {network.ip_address}
+        {network.netmask}
     */
     
     useEffect (() => {
@@ -72,8 +109,9 @@ export function DigitalOcean() {
 
     return (
         <div>
-            <input onChange={(evt) => setString(evt.target.value)} />
-            {display}
+            <Table striped bordered hover>
+                {display}
+            </Table>
         </div>
     )
 }

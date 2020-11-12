@@ -41,12 +41,6 @@ function App() {
     setAddress({ ...address, [id]: value })
   };
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    setIsBlocking(false);
-    alert(JSON.stringify(address));
-  };
-
   const logout = () => {
     apiFacade.logout()
     setLoggedIn(false)
@@ -76,7 +70,7 @@ function App() {
             <Home />
           </Route>
           <Route path="/address-info">
-            <AddressInfo address={address} isBlocking={isBlocking} handleChange={handleChange} handleSubmit={handleSubmit} />
+            <AddressInfo address={address} isBlocking={isBlocking} handleChange={handleChange} />
             <WeatherInfo address={address} />
           </Route>
           <Route path="/login-out">

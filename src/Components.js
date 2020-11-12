@@ -9,8 +9,8 @@ export function Home() {
     );
 }
 
-export function Login( {login} ) {
-    const init = {username: "", password: ""};
+export function Login({ login }) {
+    const init = { username: "", password: "" };
     const [loginCredentials, setLoginCredentials] = useState(init);
 
     const performLogin = (evt) => {
@@ -40,7 +40,25 @@ export function LoggedIn() {
     )
 }
 
-export function AddressInfo({ address, isBlocking, handleChange, handleSubmit }) {
+export function AddressInfo({ address, isBlocking, handleChange }) {
+    const [servicePoints, setServicePoints] = useState([]);
+
+    const handleSubmit = event => {
+        event.preventDefault();
+        apiFacade.getServicePoints(address)
+        .then(data => {
+            setServicePoints(data.postnord.servicePointInformationResponse.servicePoints);
+        })
+    };
+
+    const allServicePoints = servicePoints.map(servicePoint => (
+        <ul key={servicePoint.servicePointId}>
+            <li>{servicePoint.servicePointId}</li>
+            <li>{servicePoint.name}</li>
+        </ul>
+        )
+    );
+
     return (
         <div>
             <h2>What's the address?</h2>
@@ -57,8 +75,8 @@ export function AddressInfo({ address, isBlocking, handleChange, handleSubmit })
                     <br></br>
                     <input type="submit" value="Enter" onClick={handleSubmit} />
                 </form>
-                <AddressFetcher address={address} />
             </div>
+            {allServicePoints}
         </div>
     );
 }

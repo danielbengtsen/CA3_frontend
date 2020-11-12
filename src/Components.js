@@ -40,16 +40,8 @@ export function LoggedIn() {
     )
 }
 
-export function AddressInfo({ address, isBlocking, handleChange }) {
-    const [servicePoints, setServicePoints] = useState([]);
-
-    const handleSubmit = event => {
-        event.preventDefault();
-        apiFacade.getServicePoints(address)
-        .then(data => {
-            setServicePoints(data.postnord.servicePointInformationResponse.servicePoints);
-        })
-    };
+export function AddressInfo({ address, isBlocking, handleChange, handleSubmit, servicePoints }) {
+    
 
     const allServicePoints = servicePoints.map(servicePoint => (
         <ul key={servicePoint.servicePointId}>
@@ -81,34 +73,7 @@ export function AddressInfo({ address, isBlocking, handleChange }) {
     );
 }
 
-export function WeatherInfo({ address }) {
-    const initialWeather = {
-        Sunrise: "",
-        Sunset: "",
-        Datetime: "",
-        Cityname: "",
-        Temperature: "",
-        ApparentTemperature: "",
-        Description: ""
-    }
-    const [weather, setWeather] = useState(initialWeather);
-
-    useEffect(() => {
-        apiFacade.getServicePoints(address)
-            .then(data => {
-                const temp = data.weather.data[0];
-                setWeather({
-                    Sunrise: temp.sunrise,
-                    Sunset: temp.sunset,
-                    Datetime: temp.datetime,
-                    Cityname: temp.city_name,
-                    Temperature: temp.temp,
-                    ApparentTemperature: temp.app_temp,
-                    Description: temp.weather.description
-                })
-            })
-    }, [address])
-
+export function WeatherInfo({ weather }) {
     return (
         <div>
             <h2>Weather goes here</h2>

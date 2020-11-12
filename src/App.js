@@ -24,6 +24,17 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState('');
 
+  const initialWeather = {
+    Sunrise: "",
+    Sunset: "",
+    Datetime: "",
+    Cityname: "",
+    Temperature: "",
+    ApparentTemperature: "",
+    Description: ""
+  }
+  const [weather, setWeather] = useState(initialWeather);
+
   const initialValue = {
     city: "",
     postalCode: "",
@@ -32,13 +43,31 @@ function App() {
   }
 
   const [address, setAddress] = useState(initialValue);
-
+  const [servicePoints, setServicePoints] = useState([]);
   let [isBlocking, setIsBlocking] = useState(false);
 
   const handleChange = event => {
     const { id, value } = event.target;
     setIsBlocking(event.target.value.length > 0);
     setAddress({ ...address, [id]: value })
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    apiFacade.getServicePoints(address)
+    .then(data => {
+      const temp = data.weather.data[0];
+      setServicePoints(data.postnord.servicePointInformationResponse.servicePoints);
+      setWeather({
+        Sunrise: temp.sunrise,
+        Sunset: temp.sunset,
+        Datetime: temp.datetime,
+        Cityname: temp.city_name,
+        Temperature: temp.temp,
+        ApparentTemperature: temp.app_temp,
+        Description: temp.weather.description
+      })
+    })
   };
 
   const logout = () => {
@@ -70,8 +99,8 @@ function App() {
             <Home />
           </Route>
           <Route path="/address-info">
-            <AddressInfo address={address} isBlocking={isBlocking} handleChange={handleChange} />
-            <WeatherInfo address={address} />
+            <AddressInfo address={address} isBlocking={isBlocking} handleChange={handleChange} handleSubmit={handleSubmit} servicePoints={servicePoints} />
+            <WeatherInfo weather={weather} />
           </Route>
           <Route path="/login-out">
           <div>

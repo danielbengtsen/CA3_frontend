@@ -3,6 +3,8 @@ import { Prompt, Link } from 'react-router-dom';
 import apiFacade from './apiFacade';
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import jwt_decode from "jwt-decode";
+
 
 export function Home() {
     return (
@@ -11,6 +13,7 @@ export function Home() {
 }
 
 export function Login({ login }) {
+
     const init = { username: "", password: "" };
     const [loginCredentials, setLoginCredentials] = useState(init);
 
@@ -33,10 +36,15 @@ export function Login({ login }) {
     )
 }
 
-export function LoggedIn() {
+export function LoggedIn({username}) {
+
+const  token = apiFacade.getToken();
+const  decoded = jwt_decode(token); // jwt_decode is an external library
+console.log(decoded);
     return (
         <div>
             <h2>You are now logged in!</h2>
+            <p>Welcome {username}, your role is: {decoded.roles}</p>
         </div>
     )
 }
@@ -88,18 +96,6 @@ export function DigitalOcean() {
             </React.Fragment>
         )
     })
-
-    /*
-        {droplet.name}
-        {droplet.created_at}
-        {droplet.memory}
-        {droplet.status}
-        {droplet.region.name}
-        {droplet.size.price_monthly}
-        {network.gateway}
-        {network.ip_address}
-        {network.netmask}
-    */
     
     useEffect (() => {
                apiFacade.getDigitalOceanInfo()

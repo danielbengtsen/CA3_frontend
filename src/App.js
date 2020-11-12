@@ -24,6 +24,7 @@ import apiFacade from './apiFacade';
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState('');
+  const [username, setUserName] = useState("");
 
   const logout = () => {
     apiFacade.logout()
@@ -31,6 +32,7 @@ function App() {
   }
 
   const login = (user, pass) => {
+    setUserName(user);
     apiFacade.login(user, pass)
       .then(res => {
         setLoggedIn(true)
@@ -67,7 +69,7 @@ function App() {
           <div>
             {!loggedIn ? (<Login login={login} />) :
             (<div>
-              <LoggedIn />
+              <LoggedIn username={username}/>
               <button onClick={logout}>Logout</button>
             </div>)}
             

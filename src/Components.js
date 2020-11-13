@@ -175,24 +175,25 @@ export function Movies() {
 
       const allMovies = movieArray.map((movie, index)=> (
         <div>
-        <ul key={index+1}>
-            <li>{movie.display_title} - <a href={movie.link.url}>Details</a></li>
-            <p>Review Summary: {movie.summary_short}</p>
-        </ul>
-        <hr></hr>
+            <ul key={index+1}>
+                <li>{movie.display_title} - <a href={movie.link.url}>Details</a></li>
+                <p>Review Summary: {movie.summary_short}</p>
+            </ul>
+            <hr></hr>
         </div>
         )
     );
 
     return (
         <div>
-        <div>
-            <input placeholder="Enter movie title" onChange={(event) => setMovieSearchWord(event.target.value)}/>
-            <button onClick={handleSubmit}>Submit</button>
-        </div>
-        <div>
-            {allMovies}
-        </div>
+            <div>
+                <input placeholder="Enter movie title" onChange={(event) => setMovieSearchWord(event.target.value)}/>
+                <button onClick={handleSubmit}>Submit</button>
+            </div>
+            <br></br>
+            <div>
+                {allMovies}
+            </div>
         </div>
     );
 }

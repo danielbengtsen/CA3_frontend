@@ -1,21 +1,21 @@
-const URL = "http://localhost:8080/CA3_3SEM/api/";
+import URLS, {servicepointsURL, movieReviewURL, digitaloceanURL, loginURL} from './Settings';
 
 function getServicePoints(address) {
     const options = makeOptions("POST", true, address);
-    return fetch(URL + "servicepoints/servicepoints", options)
+    return fetch(servicepointsURL, options)
         .then(handleHttpErrors);
 }
 
 function getMovieReviews(query) {
     const options = makeOptions("POST", true, {query});
     console.log(options);
-    return fetch(URL + "movie/review", options)
+    return fetch(movieReviewURL, options)
         .then(handleHttpErrors);
 }
 
 function getDigitalOceanInfo() {
     const options = makeOptions("GET", true);
-    return fetch (URL + "digitalocean/admin", options)
+    return fetch (digitaloceanURL, options)
     .then(handleHttpErrors);
 }
 
@@ -35,7 +35,7 @@ const logout = () => {
 
 const login = (user, password) => {
     const options = makeOptions("POST", true, { username: user, password: password });
-    return fetch(URL + "login", options)
+    return fetch(loginURL, options)
         .then(handleHttpErrors)
         .then(res => { setToken(res.token) })
 }

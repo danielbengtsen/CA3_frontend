@@ -8,7 +8,53 @@ import jwt_decode from "jwt-decode";
 
 export function Home() {
     return (
-        <h2>Home</h2>
+        <div>
+            <div>
+                <h2>Welcome!</h2>
+                <hr></hr>
+            </div>
+            <div>
+                <h5>How to use our API?</h5>
+                    <ul>
+                    <li>For all visitors of the website:</li>
+                        <ul>
+                            <li>The "Home" tab:</li>
+                            <ul>
+                                <li>This page!</li>
+                            </ul>
+                            <li>The "Address Info" tab:</li>
+                            <ul>
+                                <li>Enter an address and find the nearest postal box as well as a weather report from the city you entered.</li>
+                            </ul>
+                            <li>The "Login" tab:</li>
+                            <ul>
+                                <li>Login and gain access to more content!</li>
+                            </ul>
+                        </ul>
+
+                        <br></br>
+
+                        <li>If you're logged in (more content):</li>
+                        <ul>
+                            <li>As user:</li>
+                            <ul>
+                                <li>The "Movies" tab:</li>
+                                <ul>
+                                    <li>Enter a movie title, and get a corresponding review summary and a link to the full review from the New York Times.</li>
+                                </ul>
+                            </ul>
+                            <li>As admin:</li>
+                            <ul>
+                                <li>The "Digital Ocean Info" tab:</li>
+                                <ul>
+                                    <li>Lookup information about the Droplets that the hoster has.</li>
+                                </ul>
+                            </ul>
+                        </ul>
+
+                    </ul>
+            </div>
+        </div>
     );
 }
 
